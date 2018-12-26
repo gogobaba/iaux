@@ -1,0 +1,21 @@
+
+
+.track-listing,
+.track-listing ul,
+.track-listing li {
+  list-style: none;
+  padding-left: 0;
+}
+
+
+
+.listing-groups {
+  border: 1px solid;
+  width: 50%;
+}
+.selected {
+  border: 1px solid blue;
+}
+.track {
+  border-bottom: 1px solid pink;
+}
