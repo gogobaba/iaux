@@ -12,7 +12,6 @@
         "jsx-a11y"
     ],
     "rules": {
-        "babel/semi": 2,
         "comma-dangle": 0,
         "import/no-extraneous-dependencies": [
             "error", {
@@ -22,13 +21,19 @@
             }
         ],
         "jsx-a11y/label-has-for": 0,
-        "jsx-a11y/label-has-associated-control": 2,
+        "jsx-a11y/label-has-associated-control": [
+            "error", {
+                "labelComponents": [],
+                "labelAttributes": [],
+                "controlComponents": [],
+                "assert": "nesting"
+          }],
         "react/jsx-filename-extension": [
             1, {
                 "extensions": [".js", ".jsx"]
             }
         ],
         "react/prefer-stateless-function": 1,
-        "semi": 2
+        "semi": [2, "always"]
     }
 }

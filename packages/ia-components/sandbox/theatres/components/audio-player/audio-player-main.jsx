@@ -1,8 +1,29 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import IAAudioPlayer from './players_by_type/archive-audio-with-waveform';
+import IAAudioPlayer from './players_by_type/archive-audio-jwplayer-wrapper';
 import ThirdPartyEmbededPlayer from './players_by_type/third-party-embed';
 import { HorizontalRadioGroup } from '../../../../index';
+
+/**
+ * Configures the required props to render the ThirdPartyEmbeddedPlayer
+ *
+ * @param { string } source
+ * @param { object } sourceData
+ * @param { string } urlExtensions
+ */
+const getExternalMediaPlayer = ({ source, sourceData, urlExtensions }) => {
+  const externalSourceInfo = sourceData[source];
+  if (!externalSourceInfo) return null;
+
+  const { urlPrefix, id, mediaName } = externalSourceInfo;
+  const sourceURL = `${urlPrefix}${id}${urlExtensions}`;
+  return (
+    <ThirdPartyEmbededPlayer
+      sourceURL={sourceURL}
+      title={mediaName}
+    />
+  );
+};
 
 /**
  * Theatre Audio Player
@@ -12,8 +33,7 @@ import { HorizontalRadioGroup } from '../../../../index';
  * When we have liner notes, this will also be responsible for
  * toggling between liner notes & player while continuing to play audio
  *
- * Props:
- * @param array availableMedia
+ * Props: see PropTypes
  */
 export default class TheatreAudioPlayer extends Component {
   constructor(props) {
@@ -24,33 +44,22 @@ export default class TheatreAudioPlayer extends Component {
   }
 
   /**
-   * Render function - Choose player according to `source
-   */
+   * Figures out which player to use based on the given `source`
+  */
   showMedia() {
-    const {
-      source, sourceData, urlExtensions = ''
-    } = this.props;
-    const { urlPrefix, id, mediaName } = sourceData;
+    const { source, sourceData, urlExtensions = '' } = this.props;
     const isExternal = source === 'youtube' || source === 'spotify';
-    let mediaElement = <IAAudioPlayer {...this.props} />;
-    if (isExternal) {
-      // make iframe with URL
-      const sourceURL = `${urlPrefix}${id}${urlExtensions}`;
-      mediaElement = (
-        <ThirdPartyEmbededPlayer
-          sourceURL={sourceURL}
-          title={mediaName}
-        />
-      );
-    }
-
+    const mediaElement = isExternal
+      ? getExternalMediaPlayer({ source, sourceData, urlExtensions })
+      : <IAAudioPlayer {...this.props} />;
     return mediaElement;
   }
 
   /**
-   * Render function - create tabs that live under the main content area
+   * Creates tabs section underneath the player window
    */
   createTabs() {
+    // create options
     const { customSourceLabel } = this.props;
     const sourceLabel = {
       value: 'player',
@@ -72,7 +81,7 @@ export default class TheatreAudioPlayer extends Component {
       <section className="theatre__audio-player">
         <div className="content-window">
           { this.showMedia() }
-          { /* todo: add liner notes book reader here */ }
+          { /* todo: add liner notes reader here */ }
         </div>
         <div className="tabs">
           { this.createTabs() }

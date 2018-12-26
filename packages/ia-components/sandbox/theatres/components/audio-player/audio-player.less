@@ -11,16 +11,23 @@
   }
 
   @media (min-width: 768px) {
-    max-height: 400px;
-    max-width: 400px;
+    max-height: 40rem;
+    max-width: 40rem;
   }
 
   .content-window {
-    border: .1rem solid;
+    border: .1rem solid; //placeholder
+    max-height: 40rem;
+    max-width: 40rem;
+    min-height: 20rem;
   }
 
   .playlist-section {
     padding: 1rem 2rem;
+  }
+  
+  .pagination-group .pagination-button {
+    border-color: red;
   }
 
   .iframe-wrapper,
@@ -36,7 +43,49 @@
       max-width: 100%;
       max-height: 100%;
     }
+
+    .iaux-player-wrapper {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+    }
+
   }
+    // .audio-player-wrapper {
+    //   position: absolute;
+    //   bottom: 38px;
+    // }
+    // .waveform-container {
+    //   // max-height: 7rem;
+    //   overflow: hidden;
+    //   width: 100%;
+    //   opacity: 1;
+    //   background-color: #ddd;
+    //   position: relative;
+
+    //   .waveform-progress {
+    //     background-color:rgb(19, 160, 216);
+    //     position: absolute;
+    //     top: 0;
+    //     bottom: 0;
+    //   }
+    //   .waveform {
+    //     width: inherit;
+    //     height: 5rem;
+    //     position: relative;
+    //   }
+    // }
+    // .jwplayer {
+    //   // background-color: transparent;
+    //   margin-top: -2.6rem;
+    //   height: 4rem;
+
+    //   .jw-wrapper,
+    //   &.jw-flag-audio-player {
+    //     background-color: rgba(0,0,0, 0.6)
+
+    //   }
 
   .iframe-wrapper {
     padding-bottom: 75%; // 4:3 ratio
@@ -44,7 +93,7 @@
       position: absolute;
       top: 0;
       left: 0;
-      width: 100%;
+      width: 99.5%;
       height: 100%;
     }
   }

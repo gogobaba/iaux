@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-
 /**
  * This Third Party Player will render an iFrame to show the player
  * It is responsive by nature and will grow/shrink with the container #iframe-wrapper

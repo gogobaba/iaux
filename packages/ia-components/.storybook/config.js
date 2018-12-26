@@ -5,7 +5,8 @@ import { withKnobs } from '@storybook/addon-knobs'
 import { withTests } from '@storybook/addon-jest';
 import results from '../jest-test-utils/jest-test-results.json';
 
-import style from './archive-cf7f2eh.less'
+import style from './archive-cf7f2eh.less';
+import styles from '../index.less';
 
 /**
  * pick all *.stories.js files within the ia-components directory

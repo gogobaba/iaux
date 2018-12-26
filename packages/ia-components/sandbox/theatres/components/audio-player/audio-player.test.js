@@ -6,7 +6,7 @@ import { TheatreAudioPlayer } from '../../../../index';
 
 
 /**
- * Test for TheatreAudioPlayerq
+ * Test for TheatreAudioPlayer
  */
 describe('TheatreAudioPlayer ', () => {
   const component = TestRenderer.create(
