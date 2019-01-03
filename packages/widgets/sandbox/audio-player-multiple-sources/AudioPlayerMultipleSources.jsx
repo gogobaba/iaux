@@ -3,8 +3,9 @@ import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import _ from 'lodash'; // TODO: only import used functions
 import {
-  ButtonPillGroup,
-  TheatreTrackList
+  SelectorRadioGroup,
+  TheatreTrackList,
+  TheatreMediaPlayer
 } from '../../../presentational/directory';
 
 import Styles from './audio-player.css';
@@ -26,9 +27,48 @@ export default class AudioPlayerMultipleSources extends Component {
       autoPlay: false  // toggle after user plays or selects a track?
     };
 
-    this.getAudioSourcesToPlay = this.getAudioSourcesToPlay.bind(this);
+    this.getAudioSources = this.getAudioSources.bind(this);
     this.onAudioTypeSelect = this.onAudioTypeSelect.bind(this);
     this.selectThisTrack = this.selectThisTrack.bind(this);
+    this.fileToPlay = this.fileToPlay.bind(this);
+  }
+
+  fileToPlay () {
+    // fetch track reference
+    // check if sample, if so, get sample mp3
+    // else return mp3
+    const { urlPrefix, item: { tracks }} = this.props;
+    const {
+      audioSourceToPlay,
+      trackToPlay,
+      playSamplesOnly
+    } = this.state;
+
+    const thisTrack = _.find(tracks, ({ track: trackNumber }) => {
+      return parseInt(trackNumber, 10) === trackToPlay;
+    })
+
+    let returnBody;
+    if (audioSourceToPlay === 'archive') {
+      returnBody = tracks.reduce((acc, trackFile) => {
+        const { name } = trackFile;
+        const dataMap = acc || {};
+        // check for waveform
+        const isPNG = !!name.match(/.png/g);
+        if (isPNG) {
+          dataMap.waveform = `${urlPrefix}/${encodeURIComponent(name)}`
+        }
+
+        // if sample, get sample.mp3 else get .mp3
+        const audioInfoToMatch = playSamplesOnly ? /sample.mp3/g : /.mp3/g;
+        const audioTrack = name.match(audioInfoToMatch);
+        dataMap.linkToTrack = `${urlPrefix}/${encodeURIComponent(audioTrack)}`
+
+        return dataMap;
+      }, {});
+    }
+    console.log('returnBody ', returnBody);
+    return returnBody;
   }
 
   componentWillMount() {
@@ -93,29 +133,32 @@ export default class AudioPlayerMultipleSources extends Component {
   /**
    * This creates the options of audio sources that a user is able to play
    * 
+   * @param bool archiveTypeOnly - signal to only return archive source
    * @return [] - an array of audio sources to feed into audio selector
    */
-  getAudioSourcesToPlay() {
+  getAudioSources(archiveSourceOnly) {
     const { playSamplesOnly } = this.state;
-    const { item: audioFile } = this.props;
-    const albumOrTracksHaveYoutubeOrSpotify = this.checkForYoutubeOrSpotifyIds(audioFile);
-
+    const { item: audioFile,  } = this.props;
     const archiveAudioType = {
       label:
       <Fragment>
         <img /> {`Archive ${playSamplesOnly ? 'Samples' : ''}`}
       </Fragment>,
-      value: 'archive',
+      value: 'archive'
     };
 
+    if (archiveSourceOnly) {
+      return [archiveAudioType];
+    }
+
+    const albumOrTracksHaveYoutubeOrSpotify = this.checkForYoutubeOrSpotifyIds(audioFile);
     const spotify = albumOrTracksHaveYoutubeOrSpotify.spotify ? {
       label: <Fragment><img /> {`Spotify`}</Fragment>,
-      value: 'spotify',
+      value: 'spotify'
     } : null;
-
     const youtube = albumOrTracksHaveYoutubeOrSpotify.youtube ? {
       label: <Fragment><img /> {`YouTube`}</Fragment>,
-      value: 'youtube',
+      value: 'youtube'
     } : null;
 
     return _.compact([archiveAudioType, spotify, youtube]);
@@ -145,15 +188,21 @@ export default class AudioPlayerMultipleSources extends Component {
 
     return (
       <div className="theatre__wrap">
-        <ButtonPillGroup
-          options={ this.getAudioSourcesToPlay() }
-          onChange={ this.onAudioTypeSelect }
-          name= "audio-source"
+        <SelectorRadioGroup
+          options = { this.getAudioSources() }
+          onChange = { this.onAudioTypeSelect }
+          name = "audio-source"
           selectedValue = { this.state.audioSourceToPlay }
+          wrapperStyle = "rounded"
+        />
+        <TheatreMediaPlayer
+          mediaSource = { this.getAudioSources(true) }
+          linerNotes = { null }
+          mediaToPlay = { this.fileToPlay() }
         />
         <TheatreTrackList
-          tracks={ tracks }
-          onSelected={ this.selectThisTrack }
+          tracks = { tracks }
+          onSelected = { this.selectThisTrack }
           selectedTrack = { trackToPlay }
         />
       </div>

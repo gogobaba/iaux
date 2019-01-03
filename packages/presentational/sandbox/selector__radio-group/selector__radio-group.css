@@ -1,0 +1,16 @@
+
+.selector__radio-group.rounded {
+  border-radius: 1.5em;
+}
+
+.selector__radio-group {
+  display: inline-block;
+  border: .15em solid;
+  padding: .5em 1em;
+}
+
+.selector__radio-group input[type='radio'] {
+  display: none;
+}
+
+
