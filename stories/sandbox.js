@@ -1,8 +1,8 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
 
-import AudioPlayer from '../packages/widgets/sandbox/audio-player-multiple-sources/AudioPlayerMultipleSources';
-import * as audioFile from '../packages/widgets/sandbox/audio-player-multiple-sources/AudioPlayerDataParser';
+import AudioPlayer from '../packages/components/sandbox/theatre__audio-player-with-3rd-party/AudioPlayerMultipleSources';
+import * as audioFile from '../packages/components/sandbox/theatre__audio-player-with-3rd-party/AudioPlayerDataParser';
 
 const { default: file,  } = audioFile;
 const itemID = file.identifier;
