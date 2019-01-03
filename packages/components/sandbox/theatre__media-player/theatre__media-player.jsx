@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
+import JWPlayerContainer from '../jwplayer-comp/jwplayer-comp';
+import { SelectorRadioGroup } from '../../directory';
 
-import { SelectorRadioGroup } from '../selector__radio-group/selector__radio-group';
-
+import style from './theatre__media-player.css';
 /**
  * 
  * Props:
@@ -17,6 +18,7 @@ export default class TheatreMediaPlayer extends Component {
 
     this.viewOptions = this.viewOptions.bind(this);
     this.toggleMediaSource = this.toggleMediaSource.bind(this);
+    this.showMedia = this.showMedia.bind(this);
   }
 
   toggleMediaSource (event) {
@@ -31,30 +33,37 @@ export default class TheatreMediaPlayer extends Component {
         value: 'liner-notes'
       })
     }
-    return (
-    <SelectorRadioGroup
-      options = { mediaSource }
+    console.log('mSSS, ', mediaSource);
+    return mediaSource;
+  }
 
-    />
-    )
+  showMedia () {
+    const { mediaToPlay } = this.props;
+    const { source } = mediaToPlay;
+    if (source === 'archive') {
+      console.log('!!!!!!!!!!!!!!!!!', mediaToPlay);
+      return <JWPlayerContainer playlist = {[mediaToPlay]} />
+    }
   }
 
   render () {
     const {
       onClickSelectedMedia,
-      mediaTypeSelected,
+      mediaToPlay
     } = this.props;
 
+    console.log("!! - ", this.props)
     return (
       <section className="theatre__media-player">
-        <div className="content">
-          {/* { this.showMedia() } */}
+        <div className="content-window">
+          { this.showMedia() }
         </div>
         <div className="tabs">
           <SelectorRadioGroup
             options = {this.viewOptions()}
             onChange = { this.toggleMediaSource }
-            selectedValue = {mediaTypeSelected}
+            selectedValue = {mediaToPlay.source}
+            wrapperStyle="tab-bottom"
           />
         </div>
       </section>

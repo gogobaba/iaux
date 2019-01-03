@@ -10,7 +10,7 @@ Fetch original audio files from `files` list,
 and attaching their related files (sample mp3, waveform, etc)
 as such using lodash:
 
-originalTrackInfo = _.filter(files, function (file) {
+originals = _.filter(files, function (file) {
   var isOriginal = file.source === "original";
   var hasTrackNumber = !!file.track;
   return isOriginal && hasTrackNumber;
@@ -85,8 +85,8 @@ const albumMetadata = {
 
 // ### ITEMS NEEDED TO MAKE URLS
 const itemInfo = {
-  server: 'ia800104.us.archive.org',
-  dir: '/22/items/cd_alone-together_charlie-haden-lee-konitz-brad-mehldau',
+  server: 'ia600506.us.archive.org',
+  dir: '/26/items/cd_alone-together_charlie-haden-lee-konitz-brad-mehldau',
   identifier: 'cd_alone-together_charlie-haden-lee-konitz-brad-mehldau',
 };
 

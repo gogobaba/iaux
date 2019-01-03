@@ -15,7 +15,6 @@ import style from './theatre__track-list.css';
  */
 const individualTrack = ({ selected, onSelected, thisTrack }) => {
   const { track: trackNumber, title, length, artist } = thisTrack;
-  console.log('track! -xxxx ', selected, thisTrack);
   const key = `individual-track-${trackNumber}`
   return (
     <li

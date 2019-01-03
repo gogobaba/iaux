@@ -37,7 +37,11 @@ export default class JWPlayerContainer extends React.Component {
   //   });
   // }
 
+  onSetupError (e) {
+    debugger;
+  }
   render() {
+    console.log('JWWW', this.props);
     let playerScript = 'https://cdnjs.cloudflare.com/ajax/libs/jplayer/2.9.2/jplayer/jquery.jplayer.min.js'
     playerScript = 'https://archive.org/jw/8/jwplayer.js?v=cf7f2eh'
     return (
@@ -53,6 +57,8 @@ export default class JWPlayerContainer extends React.Component {
           playerId={this.playerId} // bring in the randomly generated playerId
           // playerScript='https://archive.org/jw/8/jwplayer.js?v=cf7f2eh'
           playerScript={playerScript}
+          className="jwplayer"
+          onSetupError={this.onSetupError}
         />
       </div>
     );

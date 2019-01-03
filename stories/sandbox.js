@@ -1,21 +1,19 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
 
-import AudioPlayer from '../packages/components/sandbox/theatre__audio-player-with-3rd-party/AudioPlayerMultipleSources';
-import * as audioFile from '../packages/components/sandbox/theatre__audio-player-with-3rd-party/AudioPlayerDataParser';
+import { AudioPlayerWith3rdParty, audioFile } from '../packages/components/directory';
 
-const { default: file,  } = audioFile;
-const itemID = file.identifier;
-const item = file.item;
-const urlPrefix = `${file.server}${file.dir}`;
+const itemID = audioFile.identifier;
+const item = audioFile.item;
+const urlPrefix = `${audioFile.server}${audioFile.dir}`;
 
 storiesOf('Sandbox', module)
   .add('Theatre - Audio Player with Spotify & Youtube', () => (
     <div className="navia">
-      <AudioPlayer
+      <AudioPlayerWith3rdParty
         itemID = { itemID }
         urlPrefix = { urlPrefix }
-        item = { file }
+        item = { audioFile }
       />
     </div>
   ))

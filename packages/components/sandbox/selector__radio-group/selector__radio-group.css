@@ -3,14 +3,26 @@
   border-radius: 1.5em;
 }
 
+.selector__radio-group.tab-bottom {
+  border-top: 0;
+}
+
 .selector__radio-group {
   display: inline-block;
   border: .15em solid;
   padding: .5em 1em;
+
+}
+
+.selector__radio-group,
+.selector__radio-group label {
+  cursor: pointer;
 }
 
 .selector__radio-group input[type='radio'] {
   display: none;
 }
 
-
+.selector__radio-group input[type='radio']:checked + label {
+  color: red;
+}

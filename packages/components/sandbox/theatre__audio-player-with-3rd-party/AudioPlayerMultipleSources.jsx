@@ -6,7 +6,7 @@ import {
   SelectorRadioGroup,
   TheatreTrackList,
   TheatreMediaPlayer
-} from '../../../presentational/directory';
+} from '../../directory';
 
 import Styles from './audio-player.css';
 
@@ -50,24 +50,29 @@ export default class AudioPlayerMultipleSources extends Component {
 
     let returnBody;
     if (audioSourceToPlay === 'archive') {
-      returnBody = tracks.reduce((acc, trackFile) => {
+      returnBody = thisTrack.related.reduce((acc, trackFile) => {
         const { name } = trackFile;
         const dataMap = acc || {};
         // check for waveform
         const isPNG = !!name.match(/.png/g);
         if (isPNG) {
-          dataMap.waveform = `${urlPrefix}/${encodeURIComponent(name)}`
+          dataMap.image = `https://${urlPrefix}/${encodeURIComponent(name)}`
         }
 
         // if sample, get sample.mp3 else get .mp3
         const audioInfoToMatch = playSamplesOnly ? /sample.mp3/g : /.mp3/g;
         const audioTrack = name.match(audioInfoToMatch);
-        dataMap.linkToTrack = `${urlPrefix}/${encodeURIComponent(audioTrack)}`
+        console.log('at ---- ', audioTrack);
+
+        if (audioTrack) {
+          dataMap.file = `https://${urlPrefix}/${encodeURIComponent(name)}`
+        }
 
         return dataMap;
       }, {});
     }
     console.log('returnBody ', returnBody);
+    returnBody.source = audioSourceToPlay;
     return returnBody;
   }
 
