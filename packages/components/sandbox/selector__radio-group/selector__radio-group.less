@@ -10,8 +10,16 @@
 .selector__radio-group {
   display: inline-block;
   border: .15em solid;
-  padding: .5em 1em;
+}
 
+.selector__radio-group .option {
+  display: inline-block;
+  padding: .5em;
+  border-right: .15em solid;
+}
+
+.selector__radio-group .option:last-child {
+  border-right: none;
 }
 
 .selector__radio-group,

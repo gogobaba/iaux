@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import JWPlayerContainer from '../jwplayer-comp/jwplayer-comp';
 import { SelectorRadioGroup } from '../../directory';
 
-import style from './theatre__media-player.css';
+import style from './theatre__media-player.less';
 /**
  * 
  * Props:

@@ -8,7 +8,7 @@ import {
   TheatreMediaPlayer
 } from '../../directory';
 
-import Styles from './audio-player.css';
+import Styles from './audio-player.less';
 
 // state is needed for:
 // 1) knowing which track is playing
@@ -193,23 +193,31 @@ export default class AudioPlayerMultipleSources extends Component {
 
     return (
       <div className="theatre__wrap">
-        <SelectorRadioGroup
-          options = { this.getAudioSources() }
-          onChange = { this.onAudioTypeSelect }
-          name = "audio-source"
-          selectedValue = { this.state.audioSourceToPlay }
-          wrapperStyle = "rounded"
-        />
-        <TheatreMediaPlayer
-          mediaSource = { this.getAudioSources(true) }
-          linerNotes = { null }
-          mediaToPlay = { this.fileToPlay() }
-        />
-        <TheatreTrackList
-          tracks = { tracks }
-          onSelected = { this.selectThisTrack }
-          selectedTrack = { trackToPlay }
-        />
+        <section className="media-section">
+          <TheatreMediaPlayer
+            mediaSource = { this.getAudioSources(true) }
+            linerNotes = { null }
+            mediaToPlay = { this.fileToPlay() }
+          />
+        </section>
+        <section className="playlist-section">
+          <div className="source-control">
+            <h4 className="title">Play from: </h4>
+            <SelectorRadioGroup
+              options = { this.getAudioSources() }
+              onChange = { this.onAudioTypeSelect }
+              name = "audio-source"
+              selectedValue = { this.state.audioSourceToPlay }
+              wrapperStyle = "rounded"
+            />
+          </div>
+
+          <TheatreTrackList
+            tracks = { tracks }
+            onSelected = { this.selectThisTrack }
+            selectedTrack = { trackToPlay }
+          />
+        </section>
       </div>
 
     );

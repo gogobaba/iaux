@@ -1,7 +1,7 @@
 import React from 'react';
 import _ from 'lodash';
 
-import style from './theatre__track-list.css';
+import style from './theatre__track-list.less';
 
 
 /**
@@ -17,14 +17,30 @@ const individualTrack = ({ selected, onSelected, thisTrack }) => {
   const { track: trackNumber, title, length, artist } = thisTrack;
   const key = `individual-track-${trackNumber}`
   return (
-    <li
+    <tr
       data-track-number={trackNumber}
       className={`${selected ? 'selected ' : ''}track `}
       onClick={onSelected}
       key={key}
       >
-      {parseInt(trackNumber, 10)} {title} - {artist} {length}
-    </li>
+      <td className="track-number">{parseInt(trackNumber, 10)}</td>
+      <td className="track-title"><p>{title} - <i>{artist}</i></p></td>
+      <td className="track-length">{length}</td>
+    </tr>
+  )
+}
+
+const createTrackListingTable = (tracks, selectedTrack, onSelected) => {
+  return (
+    <table className="track-list-group">
+    {
+      tracks.map((thisTrack) => {
+        const { track: trackNumber } = thisTrack;
+        const selected = parseInt(trackNumber, 10) === selectedTrack;
+        return individualTrack({thisTrack, onSelected, selected})
+      })
+    }
+    </table>
   )
 }
 
@@ -40,28 +56,24 @@ const individualTrack = ({ selected, onSelected, thisTrack }) => {
  */
 export default ({ tracks, onSelected = () => {}, selectedTrack }) => {
   // TODO: check if tracks are private, then parse out the appropriate file type to draw
-  const groupedTracks = _.chunk(tracks, 12);
+  
+  const groupedTracks = tracks.length > 12 ?_.chunk(tracks, 12) : [[tracks]];
+  console.log("GROUPED -=-", groupedTracks.length);
+
+  const hasOnlyOneGroup = groupedTracks.length === 1;
+
+  const trackListing = groupedTracks.map((group, index) => {
+    console.log("*********", group)
+      return (
+        <li key={`track-listing-groups-${index}`} class={`listing-groups ${hasOnlyOneGroup ? 'full-width' : ''}`}>
+          { group.map((trackGroup) => createTrackListingTable(trackGroup, selectedTrack, onSelected))}
+        </li>
+      )
+    })
 
   return (
     <ul className="track-listing">
-      {
-        groupedTracks.map((group, index) => {
-          return (
-            <li key={`track-listing-groups-${index}`} class="listing-groups">
-              <ul className="group">
-                {
-                  group.map((thisTrack) => {
-                    const { track: trackNumber } = thisTrack;
-                    const selected = parseInt(trackNumber, 10) === selectedTrack;
-                    return individualTrack({thisTrack, onSelected, selected})
-                  })
-                }
-              </ul>
-            </li>
-          )
-        })
-      }
-
+      { trackListing }
     </ul>
   )
 }

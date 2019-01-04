@@ -9,10 +9,10 @@
         "babel-plugin-transform-runtime": "^6.23.0",
         "babel-preset-env": "^1.7.0",
         "babel-preset-react": "^6.24.1",
-        "less": "^3.8.1"
+        "less": "^3.8.1",
+        "less-loader": "^4.1.0"
     },
     "dependencies": {
-        "iajs": "^0.0.0",
         "prop-types": "^15.6.2",
         "react": "^16.6.0",
         "react-jw-player": "^1.18.1"

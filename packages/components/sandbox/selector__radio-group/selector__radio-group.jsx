@@ -15,13 +15,13 @@ import React, { Component, Fragment } from 'react';
  * @returns component
  */
 
-import styles from './selector__radio-group.css';
+import styles from './selector__radio-group.less';
 
-export default ({ options, name, onChange, selectedValue, wrapperStyle = '' }) => {
+export default ({ options, name, onChange = () => {}, selectedValue, wrapperStyle = '' }) => {
   const formattedInputs = options.map((input, index) => {
     const { value, label} = input;
     return (
-      <Fragment key={`name-${index}`}>
+      <div key={`name-${index}`} className="option">
         <input
           type="radio"
           id={ value }
@@ -29,9 +29,9 @@ export default ({ options, name, onChange, selectedValue, wrapperStyle = '' }) =
           value={ value }
           onChange={ onChange }
           checked={ selectedValue === value ? 'checked' : '' }
-        ></input>
+        />
         <label htmlFor={value}>{label}</label>
-      </Fragment>
+      </div>
     )
   });
   return (
