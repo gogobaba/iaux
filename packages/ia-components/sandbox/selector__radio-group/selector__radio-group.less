@@ -1,36 +1,37 @@
-
-.selector__radio-group.rounded {
-  border-radius: 1.5em;
-}
-
-.selector__radio-group.tab-bottom {
-  border-top: 0;
-}
-
 .selector__radio-group {
+  border: .1rem solid;
   display: inline-block;
-  border: .15em solid;
-}
-
-.selector__radio-group .option {
-  display: inline-block;
-  padding: .5em;
-  border-right: .15em solid;
-}
-
-.selector__radio-group .option:last-child {
-  border-right: none;
-}
-
-.selector__radio-group,
-.selector__radio-group label {
   cursor: pointer;
-}
 
-.selector__radio-group input[type='radio'] {
-  display: none;
-}
+  // various styles of the radio group that can be added on
+  &.rounded {
+    border-radius: 1.5em;
+  }
+  &.tab-bottom {
+    border-top: 0;
+  }
 
-.selector__radio-group input[type='radio']:checked + label {
-  color: red;
+  // inner contents
+  .option {
+    display: inline-block;
+    padding: .2em 0.5em 0;
+    border-right: .1rem solid;
+  }
+
+  .option:last-child {
+    border-right: none;
+  }
+
+  label {
+    cursor: pointer;
+    opacity: 0.5;
+  }
+
+  input[type='radio'] {
+    display: none;
+  }
+
+  input[type='radio']:checked + label {
+    opacity: 1;
+  }
 }
