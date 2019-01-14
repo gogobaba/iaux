@@ -1,0 +1,19 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`IAUXExampleComponent draws 1`] = `
+<div
+  className="example-react-component"
+>
+  <h5>
+    Greetings from the Archive's IAUX repo.
+  </h5>
+  <div>
+    <p>
+      Here are the component's children:
+    </p>
+    <p>
+      Hello this is a test
+    </p>
+  </div>
+</div>
+`;
