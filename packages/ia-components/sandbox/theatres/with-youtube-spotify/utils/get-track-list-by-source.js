@@ -70,4 +70,6 @@ const getTrackListBySource = (albumData, sourceToPlay) => {
   return [];
 };
 
-export default getTrackListBySource;
+module.exports = {
+  getTrackListBySource
+};
