@@ -1,5 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
+import { chain } from 'lodash';
 import { FlexboxPagination } from '../../../..';
 
 /**
@@ -14,11 +15,21 @@ import { FlexboxPagination } from '../../../..';
  * @return { string or react fragment } trackTitle
  */
 const parseTrackTitle = ({
-  name, title, artist = '', creator, isAlbum
+  name,
+  title,
+  albumCreator,
+  creator,
+  isAlbum
 }) => {
   if (isAlbum) { return 'Full album'; }
 
-  const artistName = creator || artist;
+  const parsedCreator = chain(creator)
+    .split(/[;,][\s]/g)
+    .pull(albumCreator)
+    .join(', ')
+    .value();
+
+  const artistName = parsedCreator ? `with ${parsedCreator}` : '';
 
   if (title) {
     return (
@@ -42,11 +53,11 @@ const parseTrackTitle = ({
  * @return component
  */
 const trackButton = ({
-  selected, onSelected, thisTrack, displayTrackNumbers
+  selected, onSelected, thisTrack, displayTrackNumbers, albumCreator
 }) => {
   const { trackNumber, length, formattedLength } = thisTrack;
   const key = `individual-track-${trackNumber}`;
-  const trackTitle = parseTrackTitle(thisTrack);
+  const trackTitle = parseTrackTitle({ ...thisTrack, albumCreator });
   const displayNumber = parseInt(trackNumber, 10) || '-';
   const displayLength = formattedLength || length || '-- : --';
 
@@ -84,7 +95,7 @@ class TheatreTrackList extends Component {
 
   render() {
     const {
-      selectedTrack, onSelected, tracks, displayTrackNumbers
+      selectedTrack, onSelected, tracks, displayTrackNumbers, creator: albumCreator
     } = this.props;
 
     return (
@@ -97,7 +108,7 @@ class TheatreTrackList extends Component {
               const { trackNumber } = thisTrack;
               const selected = trackNumber === selectedTrack;
               return trackButton({
-                thisTrack, onSelected, selected, displayTrackNumbers
+                thisTrack, onSelected, selected, displayTrackNumbers, albumCreator
               });
             })
           }
@@ -110,14 +121,16 @@ class TheatreTrackList extends Component {
 TheatreTrackList.defaultProps = {
   selectedTrack: null,
   tracks: null,
-  displayTrackNumbers: true
+  displayTrackNumbers: true,
+  creator: ''
 };
 
 TheatreTrackList.propTypes = {
   onSelected: PropTypes.func.isRequired,
   selectedTrack: PropTypes.number,
   tracks: PropTypes.array,
-  displayTrackNumbers: PropTypes.bool
+  displayTrackNumbers: PropTypes.bool,
+  creator: PropTypes.string,
 };
 
 export default TheatreTrackList;
